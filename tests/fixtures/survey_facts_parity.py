@@ -6,7 +6,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
-from tauceti_worker.survey_facts import in_scope, summarize, target_focuses
+from tauceti_tools.survey_facts import in_scope, summarize, target_focuses
 
 
 def cases():
