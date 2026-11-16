@@ -449,6 +449,9 @@ Roadmap rounds steer toward one area, a subdirectory of the
   whole roadmap over time.
 - `--roadmap-skip <area>[,<area>...]` excludes areas from both the random pick
   and the all-areas case. `--roadmap-only` wins on overlap.
+- A pinned `--roadmap-only` area is strict: fix, rebase and review rounds skip PRs
+  whose area is unknown (`roadmap/Unknown`, or an unlabeled `roadmap/` branch with no
+  target marker). Non-roadmap maintenance PRs stay in every worker's pool.
 - `--extra-roadmap-prompt <text>` adds operator guidance to the roadmap prompt, for
   example `--extra-roadmap-prompt "Work on the material relevant to Higher Topos Theory"`.
   It steers the choice of target within the designated roadmap, and the choice
