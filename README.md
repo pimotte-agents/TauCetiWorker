@@ -793,7 +793,8 @@ invocation before upgrading this checkout.
 GitHub transport state (shared cache, cooldowns and pending publications) lives in
 `$XDG_STATE_HOME/tauceti/github-shared` or `~/.local/state/tauceti/github-shared`,
 independently of the installed worker version. `TAUCETI_GITHUB_SHARED_DIR` overrides
-this location. Comment writes are spaced across workers sharing a GitHub identity;
+this location; the Docker Compose worker sets it to
+`/opt/tauceti/state/github-shared` on the persistent `state` volume. Comment writes are spaced across workers sharing a GitHub identity;
 secondary throttling backs off without discarding completed agent output.
 
 Plain `gh pr view --repo OWNER/REPO --json ...` scalar metadata reads also use

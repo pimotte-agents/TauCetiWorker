@@ -11,6 +11,9 @@ services:
     command: ["./tauceti", "work", "--loop"]
     environment:
       TAUCETI_WORKER_ID: docker
+      # Keep GitHub cooldowns, observed quota, cached reads and pending publications on the
+      # persistent state volume so recreating the container does not forget them.
+      TAUCETI_GITHUB_SHARED_DIR: /opt/tauceti/state/github-shared
       TAUCETI_WORKER_ARGS: "${TAUCETI_WORKER_ARGS:-}"
       KIRO_API_KEY: "${KIRO_API_KEY:-}"
       OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
