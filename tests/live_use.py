@@ -167,6 +167,21 @@ class LiveUse(unittest.TestCase):
             self.assertTrue(lu.live_users(self.root))
             self.assertIsNone(retention.mount_points())
 
+    def test_shim_pins_the_same_tools_revision_as_the_project(self):
+        # The `./tauceti` shim runs under `uv run --script`, which resolves ONLY its own PEP 723
+        # header and ignores pyproject.toml/uv.lock, so a stale Tools pin there silently runs the
+        # worker against an older shared-Tools API (e.g. a changed function signature).
+        repo = Path(__file__).resolve().parents[1]
+        header = (repo / "tauceti").read_text().split("# /// script\n", 1)[1].split("# ///", 1)[0]
+        shim = tomllib.loads("\n".join(line.removeprefix("# ") for line in header.splitlines()))
+        project = tomllib.loads((repo / "pyproject.toml").read_text())["project"]
+
+        def tools(deps):
+            return [d for d in deps if d.startswith("tauceti-tools")]
+
+        self.assertEqual(tools(shim["dependencies"]), tools(project["dependencies"]))
+        self.assertEqual(len(tools(project["dependencies"])), 1)
+
     @unittest.skipUnless(sys.platform == "darwin", "native macOS process observations")
     def test_native_darwin_process_references_and_owner_birth(self):
         import select
